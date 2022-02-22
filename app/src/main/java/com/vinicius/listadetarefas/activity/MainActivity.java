@@ -57,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         //Bancos de dados
-        DBHelper dbHelper = new DBHelper(getApplicationContext());
-
-        ContentValues values = new ContentValues();
-        values.put("nome","Teste");
-
-        dbHelper.getWritableDatabase().insert(DBHelper.TABELA_NOME,null, values);
+//        DBHelper dbHelper = new DBHelper(getApplicationContext());
+//
+//        ContentValues values = new ContentValues();
+//        values.put("nome","Teste");
+//
+//        dbHelper.getWritableDatabase().insert(DBHelper.TABELA_NOME,null, values);
 
         //Eventos de Click
         recyclerView.addOnItemTouchListener(

@@ -24,24 +24,25 @@ public class DBHelper extends SQLiteOpenHelper {
                 " nome TEXT NOT NULL);" ;
 
         try{
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+NOME_DB+"."+TABELA_NOME+";");
             sqLiteDatabase.execSQL(sql);
-            Log.i("DB","Tabela criada com sucesso");
+            Log.i("DBHELPER_INFO","Tabela criada com sucesso");
         }catch(Exception e){
-            Log.i("DB:","Erro ao criar tabela"+e.getMessage() );
+            Log.i("DBHELPER_INFO:","Erro ao criar tabela"+e.getMessage() );
         }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
-        String sql = "DROP TABLE IF EXISTS " + TABELA_NOME + ";";
+        String sql = "DROP TABLE IF EXISTS "+TABELA_NOME + " ;";
 
         try{
             sqLiteDatabase.execSQL(sql);
             onCreate(sqLiteDatabase);
-            Log.i("DB","Tabela alterada com sucesso");
+            Log.i("DBHELPER_INFO","Tabela alterada com sucesso");
         }catch(Exception e){
-            Log.i("DB:","Erro ao alterar tabela"+e.getMessage() );
+            Log.i("DBHELPER_INFO:","Erro ao alterar tabela"+e.getMessage() );
         }
 
     }
