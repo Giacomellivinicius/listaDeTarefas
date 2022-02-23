@@ -13,6 +13,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,11 +22,13 @@ import com.vinicius.listadetarefas.adapters.Adapter;
 import com.vinicius.listadetarefas.databinding.ActivityMainBinding;
 import com.vinicius.listadetarefas.helpers.DBHelper;
 import com.vinicius.listadetarefas.helpers.RecyclerItemClickListener;
+import com.vinicius.listadetarefas.helpers.TarefasDAO;
 import com.vinicius.listadetarefas.model.Tarefa;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -46,15 +49,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //Configurar Adapter
-        Adapter adapter = new Adapter(listTarefas);
-
-        //Configurar RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
 
         //Bancos de dados
 //        DBHelper dbHelper = new DBHelper(getApplicationContext());
@@ -110,16 +105,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         this.criarTarefas();
     }
 
     public void criarTarefas(){
-        Tarefa tarefa1 = new Tarefa(1L,"Tarefa 1");
-        Tarefa tarefa2 = new Tarefa(2L,"Tarefa 2");
-        this.listTarefas.add(tarefa1);
-        this.listTarefas.add(tarefa2);
+        TarefasDAO tarefaDAO = new TarefasDAO(getApplicationContext());
+        listTarefas = tarefaDAO.listar();
+
+        //Configurar Adapter
+        Adapter adapter = new Adapter(listTarefas);
+
+        //Configurar RecyclerView
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
+        recyclerView.setAdapter(adapter);
+
     }
 
     @Override

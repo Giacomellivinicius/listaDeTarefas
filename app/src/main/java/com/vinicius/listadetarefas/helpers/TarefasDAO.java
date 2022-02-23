@@ -1,12 +1,15 @@
 package com.vinicius.listadetarefas.helpers;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.vinicius.listadetarefas.model.Tarefa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TarefasDAO implements ITarefasDAO{
@@ -45,7 +48,25 @@ public class TarefasDAO implements ITarefasDAO{
     }
 
     @Override
-    public List<Tarefa> listas() {
-        return null;
+    public List<Tarefa> listar() {
+        List<Tarefa> tarefas = new ArrayList<>();
+        String sql = "SELECT * FROM "+DBHelper.TABELA_NOME+" ;";
+        Cursor cursor = leitor.rawQuery(sql, null);
+
+        while(cursor.moveToNext()){
+            Tarefa tarefa = new Tarefa(cursor.getLong(cursor.getColumnIndex("id")),
+                    cursor.getString(cursor.getColumnIndex("nome")));
+
+//            Long id = cursor.getLong(cursor.getColumnIndex("id"));
+//            String texto = cursor.getString(cursor.getColumnIndex("nome"));
+//
+//            tarefa.setId(id);
+//            tarefa.setTarefa_texto(texto);
+
+            if(tarefas.add(tarefa)){
+                Log.i("DB_HELPER_INFO","Tarefa recuperada");
+            }
+        }
+        return tarefas;
     }
 }

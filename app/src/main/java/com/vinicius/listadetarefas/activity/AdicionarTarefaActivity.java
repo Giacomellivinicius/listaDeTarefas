@@ -40,8 +40,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
                 TarefasDAO tarefaDAO = new TarefasDAO(getApplicationContext());
                 Tarefa tarefa = new Tarefa(null,textTarefa.getText().toString());
                 tarefaDAO.salvar(tarefa);
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
+                finish();
             break;
         }
         return super.onOptionsItemSelected(item);
